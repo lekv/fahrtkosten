@@ -251,6 +251,15 @@ var update_line_from_field = function(field) {
   // find the line, which is the parent tr
   var line = $(field).parents("tr");
   var val = $(field).val();
+  var val = String.replace(val, /,/g, ".");
+  //
+  // evaluate to allow statements like "2+2"
+  try {
+    val = eval(val);
+  } catch(ex) {};
+
+  // Only keep full cents
+  val = Math.round(parseFloat(val)*100);
   set_amounts(line, val);
 
 }
