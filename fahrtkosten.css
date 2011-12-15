@@ -1,0 +1,177 @@
+/* css for timepicker */
+.ui-timepicker-div .ui-widget-header { margin-bottom: 8px; }
+.ui-timepicker-div dl { text-align: left; }
+.ui-timepicker-div dl dt { height: 25px; margin-bottom: -25px; }
+.ui-timepicker-div dl dd { margin: 0 10px 10px 65px; }
+.ui-timepicker-div td { font-size: 90%; }
+.ui-tpicker-grid-label { background: none; border: none; margin: 0; padding: 0; }
+/* End timepicker */
+
+/* General element formats */
+body {
+  width: 800px;
+  font-family: "Tahoma", "sans-serif";
+  font-size: 11pt;
+}
+
+hr {
+  color: black;
+  background-color: black;
+  height: 1px;
+  border: none;
+}
+
+h1, h2 {
+  text-align: center;
+  /*color: red;*/
+}
+
+h2 {
+  font-size: 1.6em;
+}
+
+.center {
+  margin: auto;
+  /*color: blue;*/
+}
+
+.centertext {
+  text-align: center;
+  color: green;
+}
+
+.datefield {
+  width: 7em;
+}
+
+.timefield {
+  width: 4em;
+}
+
+.placefield {
+  width: 7em;
+}
+
+.amount {
+  margin: 0px;
+  border-left: thin solid;
+  border-right: thin solid;
+}
+
+.bordertop {
+  border-top: thin solid;
+}
+
+.borderbottom {
+  border-bottom: thin solid;
+}
+
+.dellinelink {
+  border: thin solid;
+}
+
+input.euro, input.cent {
+  text-align: right;
+  /*border-bottom: 1px solid black;*/
+  border-bottom: none;
+  border-left: none;
+  border-top: none;
+  border-right: none;
+}
+
+.persist {
+  /* Draw a green border around persisted fields */
+  border: 2px solid green;
+}
+
+input[type="button"] {
+  margin-left = 10px;
+  margin-right = 10px;
+}
+
+/* Individual Elements */
+
+#introduction {
+  width: 600px;
+  margin-left: 100px;
+  margin-bottom: 50px;
+  text-align: justify;
+}
+
+#introductiontext {
+}
+
+#address {
+  clear: left;
+  width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+#address input {
+  text-align: center;
+  font-size: x-large;
+  width: 600px;
+}
+
+#addresshelp {
+  text-align: center;
+  font-size: 12pt;
+  margin-top: 0px;
+  margin-bottom: 10px;
+}
+
+/*.localstorewrapper {
+float: left;
+clear: left;
+position: relative;
+left: 50%;
+margin-bottom: 10px;
+margin-top: 0px;
+}
+
+.localstore {
+float: left;
+position: relative;
+left: -50%;
+}*/
+
+#event {
+  clear: left;
+  width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+#event input {
+  text-align: center;
+  font-size: 17pt;
+  width: 600px;
+}
+
+#eventhelp {
+  text-align: center;
+  font-size: 12pt;
+  margin-top: 0px;
+  margin-bottom: 40px;
+}
+
+#main {
+  border: thin solid;
+  border-spacing: 0px;
+  border-collapse: collapse;
+}
+
+#sign {
+  border-bottom: 1px solid black;
+  border-left: none;
+  border-top: none;
+  border-right: none;
+  width: 250px;
+  /*border: none; */
+}
+
+#footer {
+  font-size: x-small;
+}
+
