@@ -226,7 +226,7 @@ var set_amounts = function( line, val ) {
     } catch(ex) {};
 
     // Only keep full cents
-    val = Math.round(parseFloat(val) * 100);
+    val = Math.round(parseFloat(val));
     // Ignore negative values
     var euro = Math.max(0, Math.floor(val / 100));
     var cent = Math.max(0, val % 100);
