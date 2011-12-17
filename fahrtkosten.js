@@ -6,7 +6,7 @@
  */
 var init = function() {
   // clear all inputs, due to firefox auto-complete bug. Otherwise Firefox will autofill the form in a wrong way as it doesn't handle dynamically added fields correctly.
-  $("#train, #km, #kfz, #nights, #hotel, #other, #signdate, .euro, .cent").val("");
+  $("#train, #km, #kfz, #rent, #nights, #hotel, #other, #signdate, .euro, .cent").val("");
   $("input[type='checkbox']").each( function() {
     $(this).removeAttr("checked");
   });
@@ -81,7 +81,7 @@ var init = function() {
   });
 
   // Automatically update handler for single-amount-fields
-  $("#train, #other").bind("change keyup", function() {
+  $("#train, #rent, #other").bind("change keyup", function() {
     update_line_from_field(this);
   });
 
