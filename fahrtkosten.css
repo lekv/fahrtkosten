@@ -162,6 +162,10 @@ left: -50%;
   border-collapse: collapse;
 }
 
+#sharenames {
+  width: 85%;
+}
+
 #sign {
   border-bottom: 1px solid black;
   border-left: none;

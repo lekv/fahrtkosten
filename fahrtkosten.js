@@ -6,7 +6,9 @@
  */
 var init = function() {
   // clear all inputs, due to firefox auto-complete bug. Otherwise Firefox will autofill the form in a wrong way as it doesn't handle dynamically added fields correctly.
-  $("#train, #km, #kfz, #rent, #nights, #hotel, #other, #signdate, .euro, .cent").val("");
+  $("#train, #km, #kfz, #mitfahrer, #sharekm, #sharerate, #rent, #nights, #hotel, #other, #signdate, .euro, .cent").val("");
+  $("#kfz").val("0,30");
+  $("#sharerate").val("0,02");
   $("input[type='checkbox']").each( function() {
     $(this).removeAttr("checked");
   });
@@ -88,8 +90,41 @@ var init = function() {
   // Update-Handler for the car fields.
   $("#km, #kfz").bind("change keyup", function() {
     var line = $(this).parents("tr");
-    var val = parseInt($("#km").val()) * parseInt($("#kfz").val());
-    set_amounts(line, val);
+    var km  = parseInt($("#km").val());
+    var val = $("#kfz").val();
+    var val = String.replace(val, /,/g, ".");
+    //
+    // evaluate to allow statements like "2+2"
+    try {
+      val = eval(val);
+    } catch(ex) {};
+
+    // Only keep full cents
+    val = Math.round(parseFloat(val) * 100);
+    set_amounts(line, val * km);
+  });
+
+  // Update handler for the shared ride fields
+  $("#sharekm, #sharerate, #mitfahrer").bind("change keyup", function() {
+    var line = $(this).parents("tr");
+    var count = parseInt($("#mitfahrer").val());
+    if (count) {
+      $("#sharerow").show();
+    } else {
+      $("#sharerow").hide();
+    }
+    var km  = parseInt($("#sharekm").val());
+    var val = $("#sharerate").val();
+    var val = String.replace(val, /,/g, ".");
+    //
+    // evaluate to allow statements like "2+2"
+    try {
+      val = eval(val);
+    } catch(ex) {};
+
+    // Only keep full cents
+    val = Math.round(parseFloat(val) * 100);
+    set_amounts(line, val * km * count);
   });
 
   // Update-handler for the hotel line.
