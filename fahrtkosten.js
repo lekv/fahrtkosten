@@ -223,7 +223,7 @@ var list_days = function() {
 
   // the beginning of the last day of the trip. This is 00:00 during the last night.
   var dayn = end.clone().clearTime();
-  // add intermediate days
+  // add intermediate days by counting up day2
   while (day2.compareTo(dayn) < 0) {
     add_day_line(day2.toString(fmt), cfg[cfg.length-1][1]);
     day2.add(1).days();
@@ -232,13 +232,15 @@ var list_days = function() {
   // compute last day duration
   var last_day = end - dayn;
   //console.log(last_day);
-  pay = 0;
-  for (var i = 0; i < cfg.length; i++) {
-    if (cfg[i][0] * 1000 * 3600 <= last_day) {
-      pay = cfg[i][1];
+  if (day2.compareTo(end) < 0) {
+    pay = 0;
+    for (var i = 0; i < cfg.length; i++) {
+      if (cfg[i][0] * 1000 * 3600 <= last_day) {
+        pay = cfg[i][1];
+      }
     }
+    add_day_line(dayn.toString(fmt), pay);
   }
-  add_day_line(dayn.toString(fmt), pay);
 
   return 0;
 }
