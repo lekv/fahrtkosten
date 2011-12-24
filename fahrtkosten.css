@@ -91,7 +91,7 @@ input[type="button"] {
 
 /* Individual Elements */
 
-#introduction {
+#header {
   width: 600px;
   margin-left: 100px;
   margin-bottom: 50px;
@@ -99,6 +99,10 @@ input[type="button"] {
 }
 
 #introductiontext {
+}
+
+#yearselect input {
+  margin-left: 20px;
 }
 
 #address {

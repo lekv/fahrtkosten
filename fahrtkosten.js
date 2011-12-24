@@ -5,8 +5,23 @@
  * setup the fahrtkosten form on the page
  */
 var init = function() {
+  // get the config for the selected year
+  window.fkConfigs = {
+    2011: [ 157, 283, 283 ],
+    2012: [ 157, 287, 287 ],
+  }
+
+  // Set the year depending on the current date
+  var year = (new Date()).getFullYear();
+  // check, that the current year can be selected and has a config option
+  // TODO: Select the largest year available, if current year is not configured
+  var yearOption = $("input[name='year'][value='" + year + "']");
+  if ((yearOption.length > 0) && (window.fkConfigs[year] != undefined)) {
+    yearOption.attr("checked", "checked");
+  }
+
   // clear all inputs, due to firefox auto-complete bug. Otherwise Firefox will autofill the form in a wrong way as it doesn't handle dynamically added fields correctly.
-  $("#train, #km, #kfz, #mitfahrer, #sharekm, #sharerate, #rent, #nights, #hotel, #other, #signdate, .euro, .cent").val("");
+  $("#train, #km, #kfz, #mitfahrer, #sharekm, #sharerate, #rent, #nights, #hotel, #other, #signdate, #sign, .euro, .cent").val("");
   $("#kfz").val("0,30");
   $("#sharerate").val("0,02");
   $("input[type='checkbox']").each( function() {
@@ -50,6 +65,11 @@ var init = function() {
   });
 
   // Setup handlers
+
+  // Year selection handler
+  $("input[name='year']").bind("change", function() {
+    $.event.trigger("globalUpdate");
+  });
   
   // The storage handler for all autopersist fields
   $(".persist").bind("change", function() {
@@ -61,24 +81,24 @@ var init = function() {
   });
 
   // Handler for the print and clear buttons button
-  $("#print").click(function() {
+  $("#print").bind("click", function() {
     window.print();
   });
-  $("#clear").click(function() {
+  $("#clear").bind("click", function() {
     $.jStorage.flush();
   });
 
   // The add day button
-  $("#addday").click( function() {
+  $("#addday").bind("click", function() {
     add_day_line();
   });
   // Clear all days
-  $("#cleardays").click( function() {
+  $("#cleardays").bind("click", function() {
     $(".day").remove();
   });
 
   // The list days button
-  $("#listdays").click( function() {
+  $("#listdays").bind("click", function() {
     list_days();
   });
 
@@ -128,12 +148,18 @@ var init = function() {
   });
 
   // Update-handler for the hotel line.
-  $("#nights, #hotel, #minusbreakfast").bind("change keyup", function() {
+  $("#nights, #hotel, #minusbreakfast").bind("change keyup globalUpdate", function() {
     var line = $(this).parents("tr");
     update_hotel_line(line);
   });
 
 };
+
+var getSelectedYear = function() {
+  var year = $("input[name  = 'year']:checked").val();
+  year     = parseInt(year)
+  return year;
+}
 
 /**
  * Adds a single day to the list of days.
@@ -170,7 +196,7 @@ var add_day_line = function(date, pay) {
   $("#daydummy").before(line);
 
   // Register the update-handler with all checkboxes on the line.
-  $(line).find(".meal").change( function() {
+  $(line).find(".meal").bind("change globalUpdate", function() {
     update_day_line(line);
   });
 
@@ -307,7 +333,7 @@ var update_line_from_field = function(field) {
  */
 var update_day_line = function(line) {
   // to avoid rounding errors, this function uses cent values internally
-  var meals = [ 157, 238, 238 ];
+  var meals = window.fkConfigs[getSelectedYear()];
   // find the field which contains the days compensation
   var field = line.find(":eq(0) input[name='pay']");
   // sanitize the input
@@ -338,6 +364,8 @@ var update_day_line = function(line) {
  * subtracts the breakfasts from the total payment.
  */
 var update_hotel_line = function(line) {
+  var meals = window.fkConfigs[getSelectedYear()];
+  var breakfastShare = meals[0];
   // the number of nights spent in a hotel
   var nights = $(line).find("#nights").val();
   nights = parseInt(nights);
@@ -348,7 +376,7 @@ var update_hotel_line = function(line) {
   var minusbf = $(line).find("#minusbreakfast");
   if (nights && minusbf.is(":checked")) {
     // TODO: Add global config for meal expenses
-    expense -= nights * 157;
+    expense -= nights * breakfastShare;
   }
   set_amounts(line, expense);
 }
