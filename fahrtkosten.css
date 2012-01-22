@@ -166,6 +166,11 @@ left: -50%;
   border-collapse: collapse;
 }
 
+#train {
+  /*resize: both;*/
+  resize: vertical;
+}
+
 #sharenames {
   width: 85%;
 }
