@@ -64,6 +64,12 @@ var init = function() {
     }
   });
 
+  // restore font size from the cache
+  var restored_font_size = $.jStorage.get("font-size");
+  if (restored_font_size) {
+    $("body").css("font-size", restored_font_size);
+  }
+
   // Setup handlers
 
   // Year selection handler
@@ -90,11 +96,15 @@ var init = function() {
   // Handler for the font size buttons
   $("#font_bigger").bind("click", function() {
     $("body").css("font-size", "+=1");
+    var size = $("body").css("font-size");
+    $.jStorage.set("font-size", size);
     // Scroll to the bottom of the page
     $("html").scrollTop($(document).height() - $(window).height());
   });
   $("#font_smaller").bind("click", function() {
     $("body").css("font-size", "-=1");
+    var size = $("body").css("font-size");
+    $.jStorage.set("font-size", size);
     // Scroll to the bottom of the page
     $("html").scrollTop($(document).height() - $(window).height());
   });
