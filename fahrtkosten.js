@@ -87,6 +87,17 @@ var init = function() {
   $("#clear").bind("click", function() {
     $.jStorage.flush();
   });
+  // Handler for the font size buttons
+  $("#font_bigger").bind("click", function() {
+    $("body").css("font-size", "+=1");
+    // Scroll to the bottom of the page
+    $("html").scrollTop($(document).height() - $(window).height());
+  });
+  $("#font_smaller").bind("click", function() {
+    $("body").css("font-size", "-=1");
+    // Scroll to the bottom of the page
+    $("html").scrollTop($(document).height() - $(window).height());
+  });
 
   // The add day button
   $("#addday").bind("click", function() {
