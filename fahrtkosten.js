@@ -133,7 +133,8 @@ var init = function() {
     var line = $(this).parents("tr");
     var km  = parseInt($("#km").val());
     var val = $("#kfz").val();
-    var val = String.replace(val, /,/g, ".");
+    val = String(val);
+    val = val.replace(/,/g, ".");
     //
     // evaluate to allow statements like "2+2"
     try {
@@ -156,7 +157,8 @@ var init = function() {
     }
     var km  = parseInt($("#sharekm").val());
     var val = $("#sharerate").val();
-    var val = String.replace(val, /,/g, ".");
+    val = String(val);
+    val = val.replace(/,/g, ".");
     //
     // evaluate to allow statements like "2+2"
     try {
@@ -302,7 +304,8 @@ var set_amounts = function( line, val ) {
   if (val) {
     // Replace "," with "."
     // This is usually done before, but make sure we do it here.
-    var val = String.replace(val, /,/g, ".");
+    val = String(val);
+    val = val.replace(/,/g, ".");
     //
     // evaluate to allow statements like "2+2"
     try {
@@ -335,7 +338,8 @@ var update_line_from_field = function(field) {
   // find the line, which is the parent tr
   var line = $(field).parents("tr");
   var val = $(field).val();
-  var val = String.replace(val, /,/g, ".");
+  val = String(val);
+  val = val.replace(/,/g, ".");
   //
   // evaluate to allow statements like "2+2"
   try {
