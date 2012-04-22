@@ -134,7 +134,7 @@ var init = function() {
     var km  = parseInt($("#km").val());
     var val = $("#kfz").val();
     val = String(val);
-    val = val.replace(/,/g, ".");
+    val = val.clean();
     //
     // evaluate to allow statements like "2+2"
     try {
@@ -158,7 +158,7 @@ var init = function() {
     var km  = parseInt($("#sharekm").val());
     var val = $("#sharerate").val();
     val = String(val);
-    val = val.replace(/,/g, ".");
+    val = val.clean();
     //
     // evaluate to allow statements like "2+2"
     try {
@@ -312,7 +312,7 @@ var set_amounts = function( line, val ) {
     // Replace "," with "."
     // This is usually done before, but make sure we do it here.
     val = String(val);
-    val = val.replace(/,/g, ".");
+    val = val.clean();
     //
     // evaluate to allow statements like "2+2"
     try {
@@ -346,7 +346,7 @@ var update_line_from_field = function(field) {
   var line = $(field).parents("tr");
   var val = $(field).val();
   val = String(val);
-  val = val.replace(/,/g, ".");
+  val = val.clean();
   //
   // evaluate to allow statements like "2+2"
   try {
@@ -369,7 +369,7 @@ var update_day_line = function(line) {
   // find the field which contains the days compensation
   var field = line.find(":eq(0) input[name='pay']");
   // sanitize the input
-  var val = $(field).val().replace(/,/g, ".");
+  var val = $(field).val().clean();
   var pay = Math.round(val * 100);
   // find the meal checkboxes
   var boxes = line.find(":eq(0) input:checkbox");
@@ -402,7 +402,7 @@ var update_hotel_line = function(line) {
   var nights = $(line).find("#nights").val();
   nights = parseInt(nights);
   // the amount spent on the hotel in total
-  var expense = $(line).find("#hotel").val().replace(",", ".");
+  var expense = $(line).find("#hotel").val().clean();
   expense = Math.round(parseFloat(expense) * 100);
   // check, whether to subtract breakfast
   var minusbf = $(line).find("#minusbreakfast");
@@ -435,3 +435,12 @@ var update_totals = function() {
   $("#centsum").val(cent);
 };
 
+String.prototype.clean = function() {
+  var str = this.toString();
+  //console.log("cleaning: " + str);
+  str = str.replace(/\(.*?\)/g, "");
+  str = str.replace(/\(.*?$/, "");
+  str = str.replace(/,/g, ".");
+  //console.log("returning cleaned: " + str);
+  return str;
+}

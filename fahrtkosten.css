@@ -175,6 +175,10 @@ left: -50%;
   width: 85%;
 }
 
+#other {
+  resize: both;
+}
+
 #sign {
   border-bottom: 1px solid black;
   border-left: none;
