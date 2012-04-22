@@ -438,8 +438,13 @@ var update_totals = function() {
 String.prototype.clean = function() {
   var str = this.toString();
   //console.log("cleaning: " + str);
+  // Remove comments
   str = str.replace(/\(.*?\)/g, "");
+  // Remove last comment even if partial
   str = str.replace(/\(.*?$/, "");
+  // Remove ",-"
+  str = str.replace(/,-/g, "");
+  // Replace "," by "."
   str = str.replace(/,/g, ".");
   //console.log("returning cleaned: " + str);
   return str;
