@@ -258,7 +258,14 @@ var list_days = function() {
   // This is the beginning of the second day of the trip, 00:00 during the first night.
   var day2 = start.clone().clearTime().add(1).days();
   // The duration of the first day in seconds.
-  var first_day_duration = day2 - start;
+  var first_day_duration;
+  if (day2.compareTo(end) < 0) {
+    // day2 < end -> Multiple days
+    first_day_duration = day2 - start;
+  } else {
+    // day2 >= end -> Single day trip
+    first_day_duration = end - start;
+  }
 
   // compute the amount for the first day.
   var pay = 0;
