@@ -9,6 +9,7 @@ var init = function() {
   window.fkConfigs = {
     2011: [ 157, 283, 283 ],
     2012: [ 157, 287, 287 ],
+    2012: [ 160, 293, 293 ],
   }
 
   // Set the year depending on the current date
