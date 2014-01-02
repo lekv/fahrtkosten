@@ -35,15 +35,19 @@
         <div id="introduction">
           <h1>Einleitung</h1>
           <div id="introductiontext">
+            <i>Dieser Seite enthält alte Abrechnungsformulare bis 2013. Für neuere Formulare ab 2014, besuche bitte die <a href="../">Startseite</a>.</i>
+            <hr/>
             Dieses Formular soll die Abrechnung der Fahrtkosten im DAV vereinfachen. Alle <nobr id="demospan" class="persist">grün umrandeten Felder</nobr> werden auf dem <b>lokalen Rechner</b> gespeichert und sind beim nächsten Aufruf der Seite <b>erneut sichtbar</b>. Es werden keine Daten ins Internet übertragen. Sollten Probleme auftreten oder Fragen aufkommen, sende bitte eine E-Mail an Lars (<a href="mailto:lv@lekv.de">lv@lekv.de</a>). Dieser Text wird beim Drucken der Abrechnung nicht angezeigt.
           </div>
         </div>
         <br/>
         <div id="yearselect">
           Zur Auswahl stehen zur Zeit Fahrtkostentarife für folgende Kalenderjahre: <br/>
-          <input type="radio" name="year" value="2014" checked="checked"> 2014 </input><a href="doc/Richtlinien-20140101.pdf">(Reisekostenrichtlinien des DAV 2014)</a>
-          <hr/>
-          2014 traten größere Änderugen an den Fahrtkostenrichtlinien in Kraft. Klicke hier für Formulare für <a href="2013/index.html">2011 bis 2013</a>.
+          <input type="radio" name="year" value="2011"> 2011 </input><a href="doc/Richtlinien-20110101.pdf">(Reisekostenrichtlinien des DAV 2011)</a>
+          <br/>
+          <input type="radio" name="year" value="2012"> 2012 </input><a href="doc/Richtlinien-20120101.pdf">(Reisekostenrichtlinien des DAV 2012)</a>
+          <br/>
+          <input type="radio" name="year" value="2013" checked="checked"> 2013 </input><a href="doc/Richtlinien-20130101.pdf">(Reisekostenrichtlinien des DAV 2013)</a>
         </div>
       </div>
       <h1 class="center">DEUTSCHER ALPENVEREIN E.V.</h1>
@@ -78,22 +82,16 @@
           <th align="left">1. Fahrtkosten</th><th class="amount bordertop">Euro</th><th class="amount bordertop">Cent</th>
         </tr>
         <tr>
-          <td>
-            <table>
-              <tr>
-                <td>Reise mit: <input type="checkbox"/>Eisenbahn ( <input type="checkbox"> Abrechnung durch Reisebüro )<br/><input type="checkbox">Flugzeug &ndash; Ausgaben gem. beilieg. Beleg/en:
-                </td>
-                <td>
-                  <textarea id="train" cols="17" rows="1" title="Zur Höhenänderung rechts unten anfassen und ziehen." ></textarea>&nbsp;&euro;
-                </td>
-              </tr>
-            </table>
-          </td><td class="amount borderbottom"><input class="euro linetotals" size="2" type="text"/>
-          </td><td class="amount borderbottom"><input class="cent linetotals" size="2" type="text"/>
-          </td>
+          <td>Reise mit: <input type="checkbox"/>Eisenbahn &ensp;<input type="checkbox">Flugzeug &ndash; Ausgaben gem. beilieg. Beleg/en: <textarea id="train" cols="11" rows="1" title="Zur Höhenänderung rechts unten anfassen und ziehen." ></textarea>&nbsp;&euro;</td><td class="amount borderbottom"><input class="euro linetotals" size="2" type="text"/></td><td class="amount borderbottom"><input class="cent linetotals" size="2" type="text"/></td>
         </tr>
         <tr>
           <td>Reise mit: <input type="checkbox"/>eigenem Kfz: <input id="km" size="5" type="text"/> km zu <input id="kfz" size="5" type="text"/> &euro; (pauschal)</td><td class="amount borderbottom"><input class="euro linetotals" size="2" type="text"/></td><td class="amount borderbottom"><input class="cent linetotals" size="2" type="text"/></td>
+        </tr>
+        <tr>
+          <td>Mitfahrer: <input id="mitfahrer" size="1" type="text"/> (Anzahl), <input id="sharekm" size="5" type="text"/> km zu <input id="sharerate" size="5" type="text"/> &euro; (pauschal)</td><td class="amount borderbottom"><input class="euro linetotals" size="2" type="text"/></td><td class="amount borderbottom"><input class="cent linetotals" size="2" type="text"/></td>
+        </tr>
+        <tr id="sharerow" style="display:none;">
+          <td>&ensp; Namen: <input id="sharenames" type="text"/></td><td class="amount "><input class="euro linetotals" size="2" type="text"/></td><td class="amount "><input class="cent linetotals" size="2" type="text"/></td>
         </tr>
         <tr>
           <td>Reise mit: <input type="checkbox"/>Mietwagen gem. beilieg. Beleg/en: <input id="rent" size="5" type="text"/> &euro;</td><td class="amount borderbottom"><input class="euro linetotals" size="2" type="text"/></td><td class="amount borderbottom"><input class="cent linetotals" size="2" type="text"/></td>
@@ -125,24 +123,10 @@
         <tr>
           <th align="left">4. Sonstige Barauslagen</th><td class="amount"/><td class="amount"/>
         </tr>
+
         <tr>
           <td>Ausgaben (Taxi, Parkgeb. usw.) gemäß beilieg. Beleg/en: <textarea id="other" cols="14" rows="1" title="Zur Höhenänderung rechts unten anfassen und ziehen." ></textarea> &euro;</td><td class="amount borderbottom"><input class="euro linetotals" size="2" type="text"/></td><td class="amount borderbottom"><input class="cent linetotals" size="2" type="text"/></td>
         </tr>
-
-        <tr>
-          <td>
-            <table style="width:100%">
-              <br/>
-              <tr>
-                <td style="width:50%; font-weight:bold;">Freigabe: <br> (Unterschrift GBL/RL)
-                </td>
-                <td style="width:50%; font-weight:bold;">KST:
-                </td>
-              </tr>
-            </table>
-          </td><td class="amount borderbottom"><input class="euro linetotals" size="2" type="text"/></td><td class="amount borderbottom"><input class="cent linetotals" size="2" type="text"/></td>
-        </tr>
-
 
         <tr>
           <th align="right">Summe</th><td class="amount borderbottom"><input id="eurosum" size="2" class="euro linetotals sum" type="text"/></td><td class="amount borderbottom"><input id="centsum" size="2" class="cent linetotals sum" type="text"/></td>
@@ -167,7 +151,8 @@
       <table>
         <tr><td>Name des Geldinstituts:</td><td><input type="text" id="bankname" default="Musterbank" class="persist bankdetail"></input></td></tr>
         <tr><td>Ort:</td><td><input type="text" id="bankadddress" default="München" class="persist bankdetail"></input></td></tr>
-        <tr><td>IBAN:</td><td><input type="text" id="iban" default="DEppbbbbbbbbkkkkkkkkkk" class="persist bankdetail"></input></td></tr>
+        <tr><td>Konto-Nr.:</td><td><input type="text" id="accountid" default="12345679" class="persist bankdetail"></input></td></tr>
+        <tr><td>BLZ:</td><td><input type="text" id="bankid" default="10020030" class="persist bankdetail"></input></td></tr>
       </table>
 
       <hr class="noprint"/>

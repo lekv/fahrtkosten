@@ -172,6 +172,10 @@ left: -50%;
   resize: vertical;
 }
 
+#sharenames {
+  width: 85%;
+}
+
 #other {
   resize: both;
 }

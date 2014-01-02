@@ -1,0 +1,45 @@
+@page {
+  margin 1cm;
+}
+
+.noprint {
+  display: none;
+}
+
+h1 {
+  margin-bottom: none;
+}
+
+hr {
+  display: block;
+  border: 1px solid;
+  color: black;;
+  height: 1px;;
+  margin: 0.5em auto 0.5em auto;
+}
+
+#header {
+  display: none;
+}
+
+#footer a {
+  display: none;
+}
+
+/* The td selector is needed to give this style higher specificity. */
+td input.linetotals {
+  border: none;
+}
+
+input[type="text"], input[type="none"] {
+  border-bottom: 1px solid black;
+  border-left: none;
+  border-top: none;
+  border-right: none;
+}
+
+input[type="button"], input[type="reset"], .dellinelink {
+  display: none;
+}
+
+

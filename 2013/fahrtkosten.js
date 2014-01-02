@@ -7,7 +7,9 @@
 var init = function() {
   // get the config for the selected year
   window.fkConfigs = {
-    2014: [ 480, 960, 960 ],
+    2011: [ 157, 283, 283 ],
+    2012: [ 157, 287, 287 ],
+    2013: [ 160, 293, 293 ],
   }
 
   // Set the year depending on the current date
@@ -20,8 +22,9 @@ var init = function() {
   }
 
   // clear all inputs, due to firefox auto-complete bug. Otherwise Firefox will autofill the form in a wrong way as it doesn't handle dynamically added fields correctly.
-  $("#train, #km, #kfz, #mitfahrer, #rent, #nights, #hotel, #other, #signdate, #sign, .euro, .cent").val("");
+  $("#train, #km, #kfz, #mitfahrer, #sharekm, #sharerate, #rent, #nights, #hotel, #other, #signdate, #sign, .euro, .cent").val("");
   $("#kfz").val("0,30");
+  $("#sharerate").val("0,02");
   $("input[type='checkbox']").each( function() {
     $(this).removeAttr("checked");
   });
@@ -144,6 +147,30 @@ var init = function() {
     set_amounts(line, val * km);
   });
 
+  // Update handler for the shared ride fields
+  $("#sharekm, #sharerate, #mitfahrer").bind("change keyup", function() {
+    var line = $(this).parents("tr");
+    var count = parseInt($("#mitfahrer").val());
+    if (count) {
+      $("#sharerow").show();
+    } else {
+      $("#sharerow").hide();
+    }
+    var km  = parseInt($("#sharekm").val());
+    var val = $("#sharerate").val();
+    val = String(val);
+    val = val.clean();
+    //
+    // evaluate to allow statements like "2+2"
+    try {
+      val = eval(val);
+    } catch(ex) {};
+
+    // Only keep full cents
+    val = Math.round(parseFloat(val) * 100);
+    set_amounts(line, val * km * count);
+  });
+
   // Update-handler for the hotel line.
   $("#nights, #hotel, #minusbreakfast").bind("change keyup globalUpdate", function() {
     var line = $(this).parents("tr");
@@ -199,7 +226,6 @@ var add_day_line = function(date, pay) {
 
   // Update the overall total sum. This is needed as the line was updated before it was added to the DOM. It won't do any harm as well.
   update_totals();
-  return line;
 };
 
 /**
@@ -226,9 +252,9 @@ var list_days = function() {
   var end = Date.parse(end_date + " " + end_time);
 
 
-  // Tuples specifying the compensation to be received per share of the day. For the first 8 hours one gets 12 Euros, for the next 16 hours another 12 Euros
+  // Tuples specifying the compensation to be received per share of the day. For the first 8 hours one gets 6 Euros, for the next 6 hours another 6 Euros and for the next 10 hours another 12 Euros
   // Format [ hours, amount ]
-  var cfg = [ [8, 12], [24, 24]];
+  var cfg = [ [8, 6], [14, 12], [24, 24]];
 
   // This is the beginning of the second day of the trip, 00:00 during the first night.
   var day2 = start.clone().clearTime().add(1).days();
@@ -243,71 +269,35 @@ var list_days = function() {
   }
 
   // compute the amount for the first day.
-  var first_day_pay = 0;
+  var pay = 0;
   for (var i = 0; i < cfg.length; i++) {
     if (cfg[i][0] * 1000 * 3600 <= first_day_duration) {
-      first_day_pay = cfg[i][1];
+      pay = cfg[i][1];
     }
   }
   // add the first day to the table
-  var first_day_line = add_day_line(start.toString(fmt), first_day_pay);
+  add_day_line(start.toString(fmt), pay);
 
   // the beginning of the last day of the trip. This is 00:00 during the last night.
   var dayn = end.clone().clearTime();
-  var count_full_days = 0;
   // add intermediate days by counting up day2
   while (day2.compareTo(dayn) < 0) {
     add_day_line(day2.toString(fmt), cfg[cfg.length-1][1]);
     day2.add(1).days();
-    count_full_days += 1;
   }
 
   // compute last day duration
   var last_day = end - dayn;
-  var last_day_pay = 0;
   //console.log(last_day);
   if (day2.compareTo(end) < 0) {
-    last_day_pay = 0;
+    pay = 0;
     for (var i = 0; i < cfg.length; i++) {
       if (cfg[i][0] * 1000 * 3600 <= last_day) {
-        last_day_pay = cfg[i][1];
+        pay = cfg[i][1];
       }
     }
-    var last_day_line = add_day_line(dayn.toString(fmt), last_day_pay);
+    add_day_line(dayn.toString(fmt), pay);
   }
-
-  if (first_day_pay == 0 && last_day_pay == 0 && count_full_days == 0)
-  {
-    if ((first_day_duration + last_day) >= (cfg[0][0] * 1000 * 3600))
-    {
-      // Set longer day to smallest possible amount (2014 guidelines)
-      // and remove other day line
-      if (first_day_duration > last_day)
-      {
-        first_day_pay = cfg[0][1];
-        first_day_line.find("input[name='pay']").val(first_day_pay);
-        //last_day_line.remove();
-        update_day_line(first_day_line);
-      } else {
-        last_day_pay = cfg[0][1];
-        last_day_line.find("input[name='pay']").val(last_day_pay);
-        //first_day_line.remove();
-        update_day_line(last_day_line);
-      }
-      update_totals();
-    }
-  }
-
-  //// Remove unneeded lines
-  //if (first_day_pay == 0)
-  //{
-  //  first_day_line.remove();
-  //}
-  //if (last_day_pay == 0)
-  //{
-  //  last_day_line.remove();
-  //}
-  //// No need to update totals, only zeros removed
 
   return 0;
 }
@@ -347,7 +337,7 @@ var set_amounts = function( line, val ) {
 }
 
 /**
- * Updates a line's totals from a single field. The line is determined by
+ * Updates a line's totals from a single field. The line is determined by 
  * looking up the parents tr object in the DOM.
  *
  * @param {jquery object} field : the field which line is to be updated
