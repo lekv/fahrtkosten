@@ -242,13 +242,8 @@ var list_days = function() {
     first_day_duration = end - start;
   }
 
-  // compute the amount for the first day.
-  var first_day_pay = 0;
-  for (var i = 0; i < cfg.length; i++) {
-    if (cfg[i][0] * 1000 * 3600 <= first_day_duration) {
-      first_day_pay = cfg[i][1];
-    }
-  }
+  // First day pay doesn't depend on duration (2014)
+  var first_day_pay = cfg[0][1];
   // add the first day to the table
   var first_day_line = add_day_line(start.toString(fmt), first_day_pay);
 
@@ -267,16 +262,13 @@ var list_days = function() {
   var last_day_pay = 0;
   //console.log(last_day);
   if (day2.compareTo(end) < 0) {
-    last_day_pay = 0;
-    for (var i = 0; i < cfg.length; i++) {
-      if (cfg[i][0] * 1000 * 3600 <= last_day) {
-        last_day_pay = cfg[i][1];
-      }
-    }
+    // Last day pay doesn't depend on duration (2014)
+    last_day_pay = cfg[0][1];
     var last_day_line = add_day_line(dayn.toString(fmt), last_day_pay);
   }
 
-  if (first_day_pay == 0 && last_day_pay == 0 && count_full_days == 0)
+  var midnight_rule = $("body").find("#midnight_rule");
+  if (first_day_pay > 0 && last_day_pay > 0 && count_full_days == 0 && midnight_rule.is(":checked"))
   {
     if ((first_day_duration + last_day) >= (cfg[0][0] * 1000 * 3600))
     {
@@ -286,12 +278,14 @@ var list_days = function() {
       {
         first_day_pay = cfg[0][1];
         first_day_line.find("input[name='pay']").val(first_day_pay);
-        //last_day_line.remove();
         update_day_line(first_day_line);
+        last_day_line.find("input[name='pay']").val(0);
+        update_day_line(last_day_line);
       } else {
         last_day_pay = cfg[0][1];
+        first_day_line.find("input[name='pay']").val(0);
+        update_day_line(first_day_line);
         last_day_line.find("input[name='pay']").val(last_day_pay);
-        //first_day_line.remove();
         update_day_line(last_day_line);
       }
       update_totals();
