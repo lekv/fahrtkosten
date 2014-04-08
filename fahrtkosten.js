@@ -270,26 +270,26 @@ var list_days = function() {
   var midnight_rule = $("body").find("#midnight_rule");
   if (first_day_pay > 0 && last_day_pay > 0 && count_full_days == 0 && midnight_rule.is(":checked"))
   {
-    if ((first_day_duration + last_day) >= (cfg[0][0] * 1000 * 3600))
+    if ((first_day_duration + last_day) < (cfg[0][0] * 1000 * 3600))
     {
-      // Set longer day to smallest possible amount (2014 guidelines)
-      // and remove other day line
-      if (first_day_duration > last_day)
-      {
-        first_day_pay = cfg[0][1];
-        first_day_line.find("input[name='pay']").val(first_day_pay);
-        update_day_line(first_day_line);
-        last_day_line.find("input[name='pay']").val(0);
-        update_day_line(last_day_line);
-      } else {
-        last_day_pay = cfg[0][1];
-        first_day_line.find("input[name='pay']").val(0);
-        update_day_line(first_day_line);
-        last_day_line.find("input[name='pay']").val(last_day_pay);
-        update_day_line(last_day_line);
-      }
-      update_totals();
+      first_day_pay = 0;
+      last_day_pay  = 0
     }
+    // Set longer day to smallest possible amount (2014 guidelines)
+    // and remove other day line
+    if (first_day_duration > last_day)
+    {
+      first_day_line.find("input[name='pay']").val(first_day_pay);
+      update_day_line(first_day_line);
+      last_day_line.find("input[name='pay']").val(0);
+      update_day_line(last_day_line);
+    } else {
+      first_day_line.find("input[name='pay']").val(0);
+      update_day_line(first_day_line);
+      last_day_line.find("input[name='pay']").val(last_day_pay);
+      update_day_line(last_day_line);
+    }
+    update_totals();
   }
 
   //// Remove unneeded lines
