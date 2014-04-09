@@ -230,12 +230,14 @@ var list_days = function() {
   // Format [ hours, amount ]
   var cfg = [ [8, 12], [24, 24]];
 
+  var single_day_trip = true;
   // This is the beginning of the second day of the trip, 00:00 during the first night.
   var day2 = start.clone().clearTime().add(1).days();
   // The duration of the first day in seconds.
   var first_day_duration;
   if (day2.compareTo(end) < 0) {
     // day2 < end -> Multiple days
+    single_day_trip = false;
     first_day_duration = day2 - start;
   } else {
     // day2 >= end -> Single day trip
@@ -244,6 +246,15 @@ var list_days = function() {
 
   // First day pay doesn't depend on duration (2014)
   var first_day_pay = cfg[0][1];
+  if (single_day_trip)
+  {
+    first_day_pay = 0;
+    for (var i = 0; i < cfg.length; i++) {
+      if (cfg[i][0] * 1000 * 3600 <= first_day_duration) {
+        first_day_pay = cfg[i][1];
+      }
+    }
+  }
   // add the first day to the table
   var first_day_line = add_day_line(start.toString(fmt), first_day_pay);
 
@@ -267,30 +278,30 @@ var list_days = function() {
     var last_day_line = add_day_line(dayn.toString(fmt), last_day_pay);
   }
 
-  var midnight_rule = $("body").find("#midnight_rule");
-  if (first_day_pay > 0 && last_day_pay > 0 && count_full_days == 0 && midnight_rule.is(":checked"))
-  {
-    if ((first_day_duration + last_day) < (cfg[0][0] * 1000 * 3600))
-    {
-      first_day_pay = 0;
-      last_day_pay  = 0
-    }
-    // Set longer day to smallest possible amount (2014 guidelines)
-    // and remove other day line
-    if (first_day_duration > last_day)
-    {
-      first_day_line.find("input[name='pay']").val(first_day_pay);
-      update_day_line(first_day_line);
-      last_day_line.find("input[name='pay']").val(0);
-      update_day_line(last_day_line);
-    } else {
-      first_day_line.find("input[name='pay']").val(0);
-      update_day_line(first_day_line);
-      last_day_line.find("input[name='pay']").val(last_day_pay);
-      update_day_line(last_day_line);
-    }
-    update_totals();
-  }
+  //var midnight_rule = $("body").find("#midnight_rule");
+  //if (first_day_pay > 0 && last_day_pay > 0 && count_full_days == 0 && midnight_rule.is(":checked"))
+  //{
+  //  if ((first_day_duration + last_day) < (cfg[0][0] * 1000 * 3600))
+  //  {
+  //    first_day_pay = 0;
+  //    last_day_pay  = 0
+  //  }
+  //  // Set longer day to smallest possible amount (2014 guidelines)
+  //  // and remove other day line
+  //  if (first_day_duration > last_day)
+  //  {
+  //    first_day_line.find("input[name='pay']").val(first_day_pay);
+  //    update_day_line(first_day_line);
+  //    last_day_line.find("input[name='pay']").val(0);
+  //    update_day_line(last_day_line);
+  //  } else {
+  //    first_day_line.find("input[name='pay']").val(0);
+  //    update_day_line(first_day_line);
+  //    last_day_line.find("input[name='pay']").val(last_day_pay);
+  //    update_day_line(last_day_line);
+  //  }
+  //  update_totals();
+  //}
 
   //// Remove unneeded lines
   //if (first_day_pay == 0)
