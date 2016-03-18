@@ -90,6 +90,10 @@ input[type="button"] {
   margin-right = 10px;
 }
 
+input.bankdetail {
+  width: 250px;
+}
+
 /* Individual Elements */
 
 #header {
